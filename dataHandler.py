@@ -4,7 +4,7 @@ import pandas as pd
 global quotes_general
 dateparse = lambda x: pd/datetime.strptime(x, '%d/%m/%Y %H%M%S')
 #quotes_general = pd.read_csv('C:\\Users\\REAL_\\Desktop\\micro-nasdaq\\MNQU19Minute.csv',
-quotes_general = pd.read_csv('MNQU19Minute.csv',
+quotes_general = pd.read_csv('input.csv',
                         skiprows=1,
 #                     index_col=0,
                      #date_parser=dateparse,
@@ -18,13 +18,17 @@ quotes_general = quotes_general.rename(columns={'Date':'time',2:'open',3:'high',
 #print(tmr)
 
 
-quotes_general.time = pd.to_datetime(quotes_general.time)
+#quotes_general.time = pd.to_datetime(quotes_general.time)
+#quotes_general.time =  quotes_general['time'].dt.tz_localize('UTC').dt.tz_convert('Asia/Hong_Kong')
 
 #quotes_general.index = pd.to_datetime(quotes_general.index)
 
-print (quotes_general.dtypes)
-global pri 
-global ult
+print (quotes_general)
+
+quotes_general['time'] = quotes_general['time'].dt.tz_localize('GMT').dt.tz_convert('America/New_York')
+print (quotes_general)
+#global pri 
+#global ult
 #pri,ult = ocho_am_primera_aparicion(quotes_general)
 #print ("fechitas")
 #print (pri,ult)

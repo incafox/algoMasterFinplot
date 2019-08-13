@@ -4,7 +4,7 @@ import finplot as fplt
 import numpy as np
 import pandas as pd
 import requests
-
+#'''
 # pull some data
 symbol = 'USDT-BTC'
 url = 'https://bittrex.com/Api/v2.0/pub/market/GetTicks?marketName=%s&tickInterval=fiveMin' % symbol
@@ -16,18 +16,22 @@ df = df.rename(columns={'T':'time', 'O':'open', 'C':'close', 'H':'high', 'L':'lo
 df = df.astype({'time':'datetime64[ns]'})
 
 # create three plots
-ax,ax2,ax3 = fplt.create_plot(symbol, rows=3)
+ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
 lol = dt.quotes_general[['time','open','close','high','low','volume']]
 lol = lol.astype({'time':'datetime64[ns]'})
 
+lol.time = lol.time + pd.DateOffset(hours=5)
+#lol['time'] = lol['time'].dt.tz_convert('US/Eastern')
 # plot candle sticks
 candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
 #candle_src = fplt.PandasDataSource(lol)
 
 fplt.candlestick_ochl(candle_src, ax=ax)
 
-print (df.info(verbose=True))
+print ('main!!!')
+#print (df.info(verbose=True))
 print (lol.info(verbose=True))
+print (lol)
 #print (df[['time','open','close','high','low']])
 #print (dt.quotes_general[['Date','open','close','high','low']])
 # put an MA in there
@@ -41,7 +45,7 @@ fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', 
 # draw some random crap on our second plot
 df['rnd'] = np.random.normal(size=len(df))
 fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
-fplt.set_y_range(ax2, -1.4, +1.7) # fix y-axis range
+fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
 
 # finally a volume bar chart in our third plot
 volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
