@@ -140,19 +140,11 @@ class MyWidget(BoxLayout):
         print (t)
         for e in t:
             y = Button(text=str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
+            
             self.ids.his.add_widget(y)
             #layout.add_widget(y)
-        
-        #self.view.add_widget(scrollview)
-        #self.ids.historico.add_widget(layout)
-        #self.remove_widget(self.canvas)
-        #quotes = next_8am(quotes_general,pri)
-        #self.figura.clf()
-        #pri += (timedelta(hours=24))
-        #print (quotes)
-        #print (pri)
         pass
-    def callback_botton2(self, instance):
+    def show_day_performance(self, instance):
         #quotes = next_8am(quotes_general,pri)
         #self.figura.clf()
         #print (quotes)
