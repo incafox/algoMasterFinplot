@@ -26,21 +26,32 @@
 					pos: self.pos
     #MEDIO
     #historico de incidencias
-	BoxLayout:
+	ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+
         id: historico
         padding: 10,10,10,10
         spacing: 10
         size_hint:0.35, 1
-        orientation: 'vertical'
-		Label:
-			id: label2
-			color: 1,0,1,1
-			canvas.before:
-				Color:
-					rgba:  110/255.0, 191/255.0, 63/255.0, 1
-				Rectangle:
-					pos:self.pos
-					size: self.size
+        GridLayout:
+            id: his
+            do_scroll_x: False
+            height: self.minimum_height
+            size_hint_y: None
+            spacing: 10, 10
+            cols: 1
+
+            
+		#Label:
+		#	id: label2
+		#	color: 1,0,1,1
+		#	canvas.before:
+		#		Color:
+		#			rgba:  110/255.0, 191/255.0, 63/255.0, 1
+		#		Rectangle:
+		#			pos:self.pos
+		#			size: self.size
 
     #controlador 
     BoxLayout:
@@ -99,8 +110,8 @@
         Button:
             size_hint:1, 0.1
             id: button1
-            text: "INICIA SIMULACION"
-            on_release: root.showanswer()
+            text: "fechas disponibles"
+            on_release: root.fechas_disponiblesx()
         Button:
             size_hint:1, 0.1
             id: button2

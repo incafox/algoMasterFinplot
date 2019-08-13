@@ -31,6 +31,7 @@ from kivy.uix.button import Button
 #librerias propias
 #import fileManager
 import talib
+import dataHandler as dt
 #matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 
 Builder.load_file('SimpleKivy4.kv')
@@ -40,37 +41,11 @@ Builder.load_file('SimpleKivy4.kv')
 #ohlc_df=pd.DataFrame.from_records(ohlc, columns=labels)
 #ohlc_df = fileManager.get_test()
 
+lol = dt.quotes_general[['time','open','close','high','low','volume']]
+lol = lol.astype({'time':'datetime64[ns]'})
 
-def ocho_am_primera_aparicion(df):
-    primera = ''
-    ultima = ''
-    control = False
-    for index, row in df.iterrows():
-        #print (index.strftime("%Y-%m-%d %H:%M:%S"))
-        #print ('main  ' , index.strftime("%Y-%m-%d %H:%M:%S"))
-        if (index.strftime("%H:%M:%S")=='07:50:00'):
-            #print ('debug   ' , index.strftime("%Y-%m-%d %H:%M:%S"))
-            if (control == False) :primera = index#.strftime("%Y-%m-%d %H:%M:%S")
-            control = True
-            ultima = index #.strftime("%Y-%m-%d %H:%M:%S")
-            
-        #print(row['c1'], row['c2'])
-    return primera, ultima
+lol.time = lol.time + pd.DateOffset(hours=5)
 
-def get_next_8am(df, desde):
-    primera = ''
-    ultima = ''
-    control = False
-    for index, row in df.iterrows():
-        #print (index.strftime("%Y-%m-%d %H%M%S"))
-        #print ('main  ' , index.strftime("%Y-%m-%d %H:%M:%S"))
-        if (index.strftime("%Y-%m-%d %H:%M:%S").split(' ')[-1]=='07:50:00'):
-            #print ('debug   ' , index.strftime("%Y-%m-%d %H:%M:%S"))
-            primera = index#.strftime("%Y-%m-%d %H:%M:%S")
-            return
-            
-        #print(row['c1'], row['c2'])
-    return primera
 #devuelve 9m de cualquier fecha
 #con entrada standart 2019-02-07 08:00:00
 def get_9am(fecha):
@@ -96,27 +71,47 @@ def next_8am(df, indice_actual):
     return get_frac_8to9(df, (indice_actual),(indice_actual+timedelta(hours=25)+timedelta(minutes=30)) )
 
 
+    ''' NUEVAAA'''
 
-''' indicadores '''
+def fechas_max_min(df):
+    primera , ultima = df['time'].min(), df['time'].max()
+    return primera, ultima
 
+def fechas_disponibles(df):
+    '''TODO'''
+    fechas = pd.date_range(start=df['time'].min(),end=df['time'].max(), freq='D',normalize=True)
+    #for e in fechas:   
+    return fechas
 
+def plotea_dia(df):
+    lol = df
+    ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
+    candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
+    fplt.candlestick_ochl(candle_src, ax=ax)
+    fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
+    df['rnd'] = np.random.normal(size=len(df))
+    fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
+    fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
 
+    # finally a volume bar chart in our third plot
+    volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
+    fplt.volume_ocv(volume_src, ax=ax3)
 
-
-def plotea_adelante(instance):
+    # we're done
+    fplt.show()
     pass
   
 class MyWidget(BoxLayout):
     def __init__(self):
         super(MyWidget, self).__init__()
         boton1 = Button(text='ANTERIOR 8AM', font_size=16,size_hint_y=0.06)
-        boton1.bind(on_press=self.callback_borra)
-        boton1.bind(on_press=plotea_adelante)
+        #boton1.bind(on_press=self.callback_borra)
+        #boton1.bind(on_press=plotea_adelante)
         #self.ids.plot.add_widget(boton1)
         
         boton2 = Button(text='SIGUIENTE 8AM', font_size=16,size_hint_y=0.06)
-        boton2.bind(on_press=self.callback_botton2)
-        boton2.bind(on_press=plotea_adelante)
+        #boton2.bind(on_press=self.callback_botton2)
+        #boton2.bind(on_press=plotea_adelante)
         #self.ids.plot.add_widget(boton2)
         
         #self.figura = plt.gcf()
@@ -136,7 +131,20 @@ class MyWidget(BoxLayout):
             layout.add_widget(btn)
         self.ids.datos.add_widget(layout)
     #SECCIOND DE CALLBACKS
-    def callback_borra(self, instance):
+    def fechas_disponiblesx(self):
+        self.ids.his.clear_widgets()
+        t =fechas_disponibles(lol)
+        layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
+        layout.bind(minimum_height=layout.setter('height'))
+
+        print (t)
+        for e in t:
+            y = Button(text=str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
+            self.ids.his.add_widget(y)
+            #layout.add_widget(y)
+        
+        #self.view.add_widget(scrollview)
+        #self.ids.historico.add_widget(layout)
         #self.remove_widget(self.canvas)
         #quotes = next_8am(quotes_general,pri)
         #self.figura.clf()
@@ -155,8 +163,8 @@ class MyWidget(BoxLayout):
     def callback(self, instance):
         print('The button <%s> is being pressed' % instance.text)
         self.ids.seleccionado.text = instance.text
-        fileManager.selected_path = fileManager.path + instance.text
-        fileManager.selected_file = instance.text
+        #fileManager.selected_path = fileManager.path + instance.text
+        #fileManager.selected_file = instance.text
 
     def showquestion(self):
         with open("question.txt","r") as f:
