@@ -1,0 +1,117 @@
+#: import TreeViewLabel kivy.uix.treeview.TreeViewLabel
+
+<MyWidget>:
+    size: root.size
+    orientation: 'horizontal'
+    padding: 10
+    spacing: 0
+
+    #GRAFICO CHART
+    BoxLayout:
+		id: plot
+        padding: 10,10,10,10
+        spacing: 2
+        size_hint:0.40, 1
+        orientation: 'vertical'
+		Label:
+            text: 'GRAFICOS RESULTADOS'
+			id: label1
+			color: 1,0,1,1
+            size_hint:1, 0.11
+			canvas.before:
+				Color:
+					rgba: 121/255.0, 44/255.0, 63/255.0, 1
+				Rectangle:
+					size: self.size
+					pos: self.pos
+    #MEDIO
+    #historico de incidencias
+	BoxLayout:
+        id: historico
+        padding: 10,10,10,10
+        spacing: 10
+        size_hint:0.35, 1
+        orientation: 'vertical'
+		Label:
+			id: label2
+			color: 1,0,1,1
+			canvas.before:
+				Color:
+					rgba:  110/255.0, 191/255.0, 63/255.0, 1
+				Rectangle:
+					pos:self.pos
+					size: self.size
+
+    #controlador 
+    BoxLayout:
+        padding: 10,10,10,10
+        spacing: 10
+        size_hint: 0.25, 1
+        orientation: 'vertical'
+        #TITULO : PORTFOLIO
+        BoxLayout:
+            padding: 0,0,0,0
+            spacing: 1
+            size_hint:1, 0.05
+            orientation: 'vertical'
+            Label:
+                text: 'PORTFOLIO MANAGER'
+                id: label2
+                color: 1,0,1,1
+                canvas.before:
+                    Color:
+                        rgba:  60/255.0, 1/255.0, 33/255.0, 1
+                    Rectangle:
+                        pos:self.pos
+                        size: self.size
+
+
+        ScrollView:
+            id: datos
+            size_hint:1, 0.2
+            do_scroll_x: False
+            do_scroll_y: True
+            #size_hint:1, None
+                #BoxLayout:
+                    #size_hint_y:None
+                    #orientation: 'vertical'
+                    #id: datos
+                    #rows: 2
+                    #cols: 1
+                    #padding: 1
+                    #spacing: 1
+        
+        BoxLayout:
+            padding: 0,0,0,0
+            spacing: 1
+            size_hint:1, 0.05
+            orientation: 'vertical'
+            Label:
+                text: 'DATASET SELECCIONADO : '
+                color: 1,1,1,1
+            #TITULO DE DATASET SELECCIONADO
+            Label:
+                id: seleccionado
+                text: ' '
+                color: 1,0,1,1
+
+        
+        Button:
+            size_hint:1, 0.1
+            id: button1
+            text: "INICIA SIMULACION"
+            on_release: root.showanswer()
+        Button:
+            size_hint:1, 0.1
+            id: button2
+            text: "DATA"
+        Button:
+            size_hint:1, 0.1
+            id: button3
+            text: "VELOCIDAD"
+        Button:
+            size_hint:1, 0.1
+
+            id: button4
+            text: "OPTIMIZA PARAMETROS"
+            on_release: root.showquestion()
