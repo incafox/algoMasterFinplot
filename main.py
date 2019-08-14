@@ -144,12 +144,23 @@ class MyWidget(BoxLayout):
             self.ids.his.add_widget(y)
             #layout.add_widget(y)
         pass
-    def show_day_performance(self, instance):
-        #quotes = next_8am(quotes_general,pri)
-        #self.figura.clf()
-        #print (quotes)
-        #pri += (timedelta(hours=24))
-        #print (pri)
+    def show_day_plot(self, instance):
+        '''
+        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
+        candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
+        fplt.candlestick_ochl(candle_src, ax=ax)
+        fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
+        df['rnd'] = np.random.normal(size=len(df))
+        fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
+        fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
+
+        # finally a volume bar chart in our third plot
+        volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
+        fplt.volume_ocv(volume_src, ax=ax3)
+
+        # we're done
+        fplt.show()
+        '''
         pass
 
     def callback(self, instance):
