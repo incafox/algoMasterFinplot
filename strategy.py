@@ -17,15 +17,17 @@ print (df)
 '''esto sirve para hacer una sola compra/venta'''
 '''true es compra o venta'''
 def one_oportunity_filter(df,column):
+    indices = []
     step=True
     temporal = False
+    counter = 0
     for index, row in df.iterrows():
         if (temporal==True and row[column]==True):
-            
-            
-        #if (row[column]==True and step==True ):
-            #step=False
+            indices.append(index)
+        else:
+            counter = 0
         temporal=row[column]
+    #crea nuevo arreglo pandas 
         # print(row[column])
 
 

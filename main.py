@@ -118,7 +118,7 @@ class MyWidget(BoxLayout):
         #self.ids.plot.add_widget(FigureCanvasKivyAgg(self.figura))
         
         #self.ids.plot.add_widget(canvas)
-
+        self.fecha = ''
         self.cargaDatos()
 
     def cargaDatos(self):
@@ -140,19 +140,22 @@ class MyWidget(BoxLayout):
         print (t)
         for e in t:
             y = Button(text=str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
-            
+            y.bind(on_press=self.show_day_plot)
             self.ids.his.add_widget(y)
             #layout.add_widget(y)
         pass
     def show_day_plot(self, instance):
-        '''
+        self.fecha = instance.text
+        print (self.fecha)
+        temp = lol 
+        #temp = self.get_frac_df(temp,)
         ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
         candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
         fplt.candlestick_ochl(candle_src, ax=ax)
         fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
-        df['rnd'] = np.random.normal(size=len(df))
-        fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
-        fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
+        #df['rnd'] = np.random.normal(size=len(df))
+        #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
+        #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
 
         # finally a volume bar chart in our third plot
         volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
@@ -160,9 +163,14 @@ class MyWidget(BoxLayout):
 
         # we're done
         fplt.show()
-        '''
+        
         pass
 
+    def get_frac_df(self, df, desde, hasta):
+        #df = get_dataframe()
+        #df['Date'] = pd.to_datetime(df['Date'])
+        fr = df[(df.index > desde) & (df.index <= hasta)]
+        return fr
     def callback(self, instance):
         print('The button <%s> is being pressed' % instance.text)
         self.ids.seleccionado.text = instance.text
