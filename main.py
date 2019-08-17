@@ -1,3 +1,10 @@
+import subprocess
+import threading
+import time
+from kivy.config import Config
+Config.set('kivy', 'exit_on_escape', '0')
+import multiprocessing as mp 
+from multiprocessing import Process, Queue
 import dataHandler
 import kivy
 #kivy.require('1.11.0')
@@ -43,8 +50,8 @@ Builder.load_file('SimpleKivy4.kv')
 
 lol = dt.quotes_general[['time','open','close','high','low','volume']]
 lol = lol.astype({'time':'datetime64[ns]'})
-
 lol.time = lol.time + pd.DateOffset(hours=5)
+datex = ''
 
 #devuelve 9m de cualquier fecha
 #con entrada standart 2019-02-07 08:00:00
@@ -100,7 +107,28 @@ def plotea_dia(df):
     # we're done
     fplt.show()
     pass
-  
+
+def show_day():
+    #lol = df
+    temp = lol 
+    #temp = self.get_frac_df(temp,)
+    ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
+    candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
+    fplt.candlestick_ochl(candle_src, ax=ax)
+    fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
+    #df['rnd'] = np.random.normal(size=len(df))
+    #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
+    #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
+    # finally a volume bar chart in our third plot
+    volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
+    fplt.volume_ocv(volume_src, ax=ax3)
+    # we're done
+    fplt.show()
+    
+def xxx(instance):
+    #popen
+    pass
+    
 class MyWidget(BoxLayout):
     def __init__(self):
         super(MyWidget, self).__init__()
@@ -133,38 +161,56 @@ class MyWidget(BoxLayout):
     #SECCIOND DE CALLBACKS
     def fechas_disponiblesx(self):
         self.ids.his.clear_widgets()
-        t =fechas_disponibles(lol)
+        t = fechas_disponibles(lol)
         layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
-
+        self.fechas = t
         print (t)
+        print (t[0])
+        i=0
         for e in t:
-            y = Button(text=str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
+            y = Button(text=str(i)+'-'+str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
+            #y.bind(on_press=self.test)
             y.bind(on_press=self.show_day_plot)
+            #y.bind(on_press=show_day)
+            #y.bind(on_press=xxx)
             self.ids.his.add_widget(y)
+            i = i+1
             #layout.add_widget(y)
         pass
+    def test(self, instance):
+        #queue = Queue()
+        #p = Process(target=self.show_day_plot)
+        #p.start()
+        #p.join()
+        pass
     def show_day_plot(self, instance):
-        self.fecha = instance.text
-        print (self.fecha)
+        aux = int(instance.text.split('-')[0])
+        print ('fechaaa')
+        print (aux)
         temp = lol 
+        #temp = pd.date_range(start=temp['time'][self.fechas[0]], end=temp['time'][self.fechas[1]], freq='D')
+        #print (self.fechas[0])
+        #print (self.fechas[0],self.fechas[1])
+        #datex = self.fechas[3]
+        desde = self.fechas[aux] + timedelta(hours=5)
+        hasta = desde + timedelta(hours=24)
+        temp = lol[(lol.time > desde) & (lol.time <= hasta)]
+        #print (temp)
+        #print (temp['time'][self.fecha])
         #temp = self.get_frac_df(temp,)
-        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3)
-        candle_src = fplt.PandasDataSource(lol[['time','open','close','high','low']])
-        fplt.candlestick_ochl(candle_src, ax=ax)
-        fplt.plot(lol['time'], lol['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
+        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3,maximize=True)
+        candle_src = fplt.PandasDataSource(temp[['time','open','close','high','low']])
+        fplt.candlestick_ochl(candle_src, ax=ax,draw_body=True,draw_shadow=True,candle_width=0.9)
+        fplt.plot(temp['time'], temp['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
+        #subprocess.Popen(['python','ploter.py'])
         #df['rnd'] = np.random.normal(size=len(df))
         #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
         #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
-
         # finally a volume bar chart in our third plot
-        volume_src = fplt.PandasDataSource(lol[['time','open','close','volume']])
+        volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
         fplt.volume_ocv(volume_src, ax=ax3)
-
-        # we're done
         fplt.show()
-        
-        pass
 
     def get_frac_df(self, df, desde, hasta):
         #df = get_dataframe()

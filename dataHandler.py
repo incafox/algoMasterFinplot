@@ -1,5 +1,6 @@
 import pandas as pd 
-
+from datetime import timedelta
+import finplot as fplt
 
 global quotes_general
 dateparse = lambda x: pd/datetime.strptime(x, '%d/%m/%Y %H%M%S')
@@ -16,7 +17,6 @@ quotes_general = quotes_general.rename(columns={'Date':'time',2:'open',3:'high',
 #print (lol)
 #tmr = pd.to_datetime(quotes_general.index).dt.strftime('%Y-%d-%m %H:%M:%S')
 #print(tmr)
-
 
 #quotes_general.time = pd.to_datetime(quotes_general.time)
 #quotes_general.time =  quotes_general['time'].dt.tz_localize('UTC').dt.tz_convert('Asia/Hong_Kong')
