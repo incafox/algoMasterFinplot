@@ -2,11 +2,18 @@
 import scipy as sp
 from scipy import signal
 #*****************
-
-
 '''FFT'''
 from scipy.fftpack import fft
 ''''''
+
+'''TA LIBRARY (VORTEX, ETC)'''
+''' https://github.com/bukosabino/ta '''
+from ta import *
+import ta 
+''''''
+
+
+
 import subprocess
 import threading
 import time
@@ -197,7 +204,7 @@ class MyWidget(BoxLayout):
     '''implementado en show day plot()'''
     def plot_fft(self, dataframe,column):
         N = len(dataframe[column])
-        T = 1.0/400.0
+        T = 1.0/800.0
         yf = fft(dataframe[column])
         xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
         plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
@@ -213,7 +220,11 @@ class MyWidget(BoxLayout):
         '''************************'''
         self.marketdata['sma200'] = self.marketdata['close'].rolling(200).mean()
         self.marketdata['filtered'] = sp.signal.medfilt(self.marketdata['close'],21) 
-        print (self.marketdata)
+        self.marketdata['vortexn'] = ta.vortex_indicator_neg(self.marketdata.high,self.marketdata.low,
+                                        self.marketdata.close,fillna=True,n=14)
+        self.marketdata['vortexp'] = ta.vortex_indicator_pos(self.marketdata.high,self.marketdata.low,
+                                        self.marketdata.close,fillna=True,n=14)
+        #print (self.marketdata)
         pass
 
     '''PLOTEA INFO DE UN DIA - EVENTO BOTON'''
@@ -240,32 +251,44 @@ class MyWidget(BoxLayout):
         #print (temp['time'][self.fecha])
         #temp = self.get_frac_df(temp,)
         #print ('actualizado')
-        #print (temp)
+        
+        print ('SELECCIONADO')
+        print (temp)
+        print (temp.dtypes)
 
+        '''TODO :MEJORA EL FFT que agrege en la ventana izquierda en matplotlib'''
+        #self.plot_fft(temp,'filtered')
 
-        '''TODO :MEJORA EL FFT'''
-        self.plot_fft(temp,'filtered')
-
-
+        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3 )#,maximize=True)
         try:
             '''CANDLESTICK CHARTS'''
-            ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3,maximize=True)
+            
             candle_src = fplt.PandasDataSource(temp[['time','open','close','high','low']])
             fplt.candlestick_ochl(candle_src, ax=ax,draw_body=True,draw_shadow=True)
             fplt.plot(temp['time'], temp['sma200'], ax=ax, color='#0000ff', legend='ma-200')
             fplt.plot(temp['time'], temp['filtered'], ax=ax, color='#ff00ff', legend='filtrado',width=2)
             
-            #subprocess.Popen(['python','ploter.py'])
-            #df['rnd'] = np.random.normal(size=len(df))
-            #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
-            #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
-            # finally a volume bar chart in our third plot
             '''VOLUMEN CHARTS'''
             volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
-            fplt.volume_ocv(volume_src, ax=ax3)
+            fplt.volume_ocv(volume_src, ax=ax2)
+            
+            '''INTERMEDIOS'''
+            #te = np.random.normal(size=len(temp))
+            #fplt.plot(temp['time'], te, ax=ax2, color='#001177', legend='vortex pos')
+            #fplt.plot(temp['time'], temp['vortex_n'], ax=ax2, color='#ff0000', legend='vortex neg')
+            #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
+            # draw some random crap on our second plot
+            #temp['rnd'] = np.random.normal(size=len(temp))
+            print (temp.vortexn)
+            fplt.plot(temp['time'], temp['vortexn'], ax=ax3, color='#992277', legend='stuff')
+            fplt.set_y_range(ax3, -10.4, +10.7) # fix y-axis range
+                
+            
+            # finally a volume bar chart in our third plot
+           
             fplt.show()
-        except:
-            print('error papaaa')
+        except Exception as e: 
+            print(e)
 
     def get_frac_df(self, df, desde, hasta):
         #df = get_dataframe()
