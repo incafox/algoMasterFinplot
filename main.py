@@ -1,3 +1,12 @@
+'''filtrado de ruido'''
+import scipy as sp
+from scipy import signal
+#*****************
+
+
+'''FFT'''
+from scipy.fftpack import fft
+''''''
 import subprocess
 import threading
 import time
@@ -24,6 +33,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 import matplotlib
+import matplotlib.pyplot as plt
+
 #from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 #from mpl_finance import candlestick_ohlc
 import requests
@@ -148,6 +159,9 @@ class MyWidget(BoxLayout):
         #self.ids.plot.add_widget(canvas)
         self.fecha = ''
         self.cargaDatos()
+        '''IMPORTANTE : DATOS LIGADOS A CLASE: TRABAJAR SOLO ACA'''
+        self.marketdata = lol  
+        self.play()
 
     def cargaDatos(self):
         datos =[]# fileManager.get_available_filepaths()
@@ -178,39 +192,80 @@ class MyWidget(BoxLayout):
             i = i+1
             #layout.add_widget(y)
         pass
-    def test(self, instance):
-        #queue = Queue()
-        #p = Process(target=self.show_day_plot)
-        #p.start()
-        #p.join()
+
+    '''procesamiento de fft'''
+    '''implementado en show day plot()'''
+    def plot_fft(self, dataframe,column):
+        N = len(dataframe[column])
+        T = 1.0/400.0
+        yf = fft(dataframe[column])
+        xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
+        plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+        plt.grid()
+        plt.show()
         pass
+
+    '''procesamiento de data'''
+    '''implementado en: constructor'''
+    def play(self):
+        '''************************'''
+        '''AGREGA TUS WEADAS ACAAAA'''
+        '''************************'''
+        self.marketdata['sma200'] = self.marketdata['close'].rolling(200).mean()
+        self.marketdata['filtered'] = sp.signal.medfilt(self.marketdata['close'],21) 
+        print (self.marketdata)
+        pass
+
+    '''PLOTEA INFO DE UN DIA - EVENTO BOTON'''
+    '''bindeado en botones de dias'''
     def show_day_plot(self, instance):
         aux = int(instance.text.split('-')[0])
         print ('fechaaa')
         print (aux)
-        temp = lol 
+        #temp = lol
+        #self.marketdata =  
+        
+        
+        
+        '''TERMINA TUS WEADAS ACA'''
+        print (self.marketdata)
         #temp = pd.date_range(start=temp['time'][self.fechas[0]], end=temp['time'][self.fechas[1]], freq='D')
         #print (self.fechas[0])
         #print (self.fechas[0],self.fechas[1])
         #datex = self.fechas[3]
         desde = self.fechas[aux] + timedelta(hours=5)
         hasta = desde + timedelta(hours=24)
-        temp = lol[(lol.time > desde) & (lol.time <= hasta)]
+        temp = self.marketdata[(self.marketdata.time > desde) & (self.marketdata.time <= hasta)]
         #print (temp)
         #print (temp['time'][self.fecha])
         #temp = self.get_frac_df(temp,)
-        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3,maximize=True)
-        candle_src = fplt.PandasDataSource(temp[['time','open','close','high','low']])
-        fplt.candlestick_ochl(candle_src, ax=ax,draw_body=True,draw_shadow=True,candle_width=0.9)
-        fplt.plot(temp['time'], temp['close'].rolling(25).mean(), ax=ax, color='#0000ff', legend='ma-25')
-        #subprocess.Popen(['python','ploter.py'])
-        #df['rnd'] = np.random.normal(size=len(df))
-        #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
-        #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
-        # finally a volume bar chart in our third plot
-        volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
-        fplt.volume_ocv(volume_src, ax=ax3)
-        fplt.show()
+        #print ('actualizado')
+        #print (temp)
+
+
+        '''TODO :MEJORA EL FFT'''
+        self.plot_fft(temp,'filtered')
+
+
+        try:
+            '''CANDLESTICK CHARTS'''
+            ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3,maximize=True)
+            candle_src = fplt.PandasDataSource(temp[['time','open','close','high','low']])
+            fplt.candlestick_ochl(candle_src, ax=ax,draw_body=True,draw_shadow=True)
+            fplt.plot(temp['time'], temp['sma200'], ax=ax, color='#0000ff', legend='ma-200')
+            fplt.plot(temp['time'], temp['filtered'], ax=ax, color='#ff00ff', legend='filtrado',width=2)
+            
+            #subprocess.Popen(['python','ploter.py'])
+            #df['rnd'] = np.random.normal(size=len(df))
+            #fplt.plot(df['time'], df['rnd'], ax=ax2, color='#992277', legend='stuff')
+            #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
+            # finally a volume bar chart in our third plot
+            '''VOLUMEN CHARTS'''
+            volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
+            fplt.volume_ocv(volume_src, ax=ax3)
+            fplt.show()
+        except:
+            print('error papaaa')
 
     def get_frac_df(self, df, desde, hasta):
         #df = get_dataframe()
@@ -242,5 +297,12 @@ class myApp(App):
         pass
 
 
+
+
+
+
 if __name__ in ('__main__', '__android__'): 
     myApp().run()
+
+
+
