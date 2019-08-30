@@ -224,6 +224,7 @@ class MyWidget(BoxLayout):
                                         self.marketdata.close,fillna=True,n=14)
         self.marketdata['vortexp'] = ta.vortex_indicator_pos(self.marketdata.high,self.marketdata.low,
                                         self.marketdata.close,fillna=True,n=14)
+        #self.marketdata['']
         #print (self.marketdata)
         pass
 
@@ -235,7 +236,6 @@ class MyWidget(BoxLayout):
         print (aux)
         #temp = lol
         #self.marketdata =  
-        
         
         
         '''TERMINA TUS WEADAS ACA'''
