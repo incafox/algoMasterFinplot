@@ -252,9 +252,9 @@ class MyWidget(BoxLayout):
         #temp = self.get_frac_df(temp,)
         #print ('actualizado')
         
-        print ('SELECCIONADO')
-        print (temp)
-        print (temp.dtypes)
+        #print ('SELECCIONADO')
+        #print (temp)
+        #print (temp.dtypes)
 
         '''TODO :MEJORA EL FFT que agrege en la ventana izquierda en matplotlib'''
         #self.plot_fft(temp,'filtered')
@@ -279,11 +279,9 @@ class MyWidget(BoxLayout):
             #fplt.set_y_range(ax2, -4.4, +4.4) # fix y-axis range
             # draw some random crap on our second plot
             #temp['rnd'] = np.random.normal(size=len(temp))
-            print (temp.vortexn)
-            fplt.plot(temp['time'], temp['vortexn'], ax=ax3, color='#992277', legend='stuff')
+            #print (temp.vortexn)
+            #fplt.plot(temp['time'], temp['vortexn'], ax=ax3, color='#992277', legend='stuff')
             fplt.set_y_range(ax3, -10.4, +10.7) # fix y-axis range
-                
-            
             # finally a volume bar chart in our third plot
            
             fplt.show()
@@ -318,9 +316,6 @@ class myApp(App):
         return True
     def on_resume(self): 
         pass
-
-
-
 
 
 

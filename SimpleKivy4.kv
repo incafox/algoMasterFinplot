@@ -13,11 +13,19 @@
         spacing: 2
         size_hint:0.40, 1
         orientation: 'vertical'
-		Label:
+		BoxLayout:
+            size_hint:1, 0.2
+            orientation: 'horizontal'
+            Button:
+                size_hint:0.3, 1
+                text: 'Run Estrategy'
+            TextInput:
+                size_hint:0.7, 1  
+        Label:
             text: 'GRAFICOS RESULTADOS'
 			id: label1
 			color: 1,0,1,1
-            size_hint:1, 0.11
+            size_hint:1, 0.8
 			canvas.before:
 				Color:
 					rgba: 121/255.0, 44/255.0, 63/255.0, 1
