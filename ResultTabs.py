@@ -12,6 +12,7 @@ class Singleton:
             Singleton()
         return Singleton.__instance
     def __init__(self):
+        self.isWorking = False
         self.result = dt.quotes_general[['time','open','close','high','low','volume']]
         self.result = self.result.astype({'time':'datetime64[ns]'})
         self.result.time = self.result.time + pd.DateOffset(hours=5)
@@ -23,6 +24,13 @@ class Singleton:
     
     def addColumn(self,df,name):
         self.result[name] = df
+        pass
+    
+    def initWorking(self):
+        self.isWorking = True
+        pass 
+    def endedWorking(self):
+        self.isWorking = False
         pass
 
 s = Singleton()

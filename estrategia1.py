@@ -15,7 +15,7 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         print (self.lastQuote.volume)
-        #print ('estrategia gaaaa')
+        print (rt.Singleton.getInstance().isWorking)
         pass
 
 
@@ -28,11 +28,16 @@ temp.init()
 #loop de la estrategia
 temp.runStrategy()
 
+print (rt.Singleton.getInstance().isWorking)
+print (rt.Singleton.getInstance().isWorking)
+print (rt.Singleton.getInstance().isWorking)
+               
+
 #temp.handle(temp.lastQuote)
 #print (temp.data)
 #temp.runStrategy()
 
-s = rt.Singleton.getInstance()
-print (s.result)
-s.addColumn(s.result['close'],'holi')
-print (s.result)
+#s = rt.Singleton.getInstance()
+#print (s.result)
+#s.addColumn(s.result['close'],'holi')
+#print (s.result)
