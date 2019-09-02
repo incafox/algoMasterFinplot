@@ -50,8 +50,3 @@ class indicatorManager():
             pass
         #self.dataframe.
 
-
-
-
-
-#
