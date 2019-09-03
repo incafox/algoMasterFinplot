@@ -10,27 +10,27 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
     '''init: setup del inicio'''
     def init(self):
         print ('init')
-        pass#return ''
+        #pass#return ''
 
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         print (self.lastQuote.volume)
         print (rt.Singleton.getInstance().isWorking)
-        pass
+        #pass
 
 
 #crea la estrategia
-temp = Estrategia()
+#temp = Estrategia()
 
 #inicializa la estrategia
-temp.init()
+#temp.init()
 
 #loop de la estrategia
-temp.runStrategy()
+#temp.runStrategy()
 
-print (rt.Singleton.getInstance().isWorking)
-print (rt.Singleton.getInstance().isWorking)
-print (rt.Singleton.getInstance().isWorking)
+#print (rt.Singleton.getInstance().isWorking)
+#print (rt.Singleton.getInstance().isWorking)
+#print (rt.Singleton.getInstance().isWorking)
                
 #temp.handle(temp.lastQuote)
 #print (temp.data)

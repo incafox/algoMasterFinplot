@@ -12,7 +12,9 @@ from ta import *
 import ta 
 ''''''
 
-
+'''ESTRATEGIAS'''
+import estrategia1
+import os
 
 import subprocess
 import threading
@@ -200,6 +202,16 @@ class MyWidget(BoxLayout):
             #layout.add_widget(y)
         pass
 
+    '''BOTON: RUN ESTRATEGY'''
+    def runEstrategy(self):
+        re = estrategia1.Estrategia()
+        re.init()
+        re.runStrategy()
+        '''AGREGA DATOS RESULTANTES A HOJA VACIA'''
+        
+        #os.system('python ' + str(estrategia1))
+        
+
     '''procesamiento de fft'''
     '''implementado en show day plot()'''
     def plot_fft(self, dataframe,column):
@@ -210,7 +222,7 @@ class MyWidget(BoxLayout):
         plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
         plt.grid()
         plt.show()
-        pass
+        #pass
 
     '''procesamiento de data'''
     '''implementado en: constructor'''
@@ -226,7 +238,7 @@ class MyWidget(BoxLayout):
                                         self.marketdata.close,fillna=True,n=14)
         #self.marketdata['']
         #print (self.marketdata)
-        pass
+        #pass
 
     '''PLOTEA INFO DE UN DIA - EVENTO BOTON'''
     '''bindeado en botones de dias'''
@@ -287,6 +299,7 @@ class MyWidget(BoxLayout):
             fplt.show()
         except Exception as e: 
             print(e)
+        
 
     def get_frac_df(self, df, desde, hasta):
         #df = get_dataframe()
