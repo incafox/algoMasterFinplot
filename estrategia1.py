@@ -32,7 +32,6 @@ print (rt.Singleton.getInstance().isWorking)
 print (rt.Singleton.getInstance().isWorking)
 print (rt.Singleton.getInstance().isWorking)
                
-
 #temp.handle(temp.lastQuote)
 #print (temp.data)
 #temp.runStrategy()
