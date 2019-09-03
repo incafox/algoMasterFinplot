@@ -200,7 +200,7 @@ class MyWidget(BoxLayout):
             self.ids.his.add_widget(y)
             i = i+1
             #layout.add_widget(y)
-        pass
+        #pass
 
     '''BOTON: RUN ESTRATEGY'''
     def runEstrategy(self):
@@ -244,10 +244,8 @@ class MyWidget(BoxLayout):
     '''bindeado en botones de dias'''
     def show_day_plot(self, instance):
         aux = int(instance.text.split('-')[0])
-        print ('fechaaa')
-        print (aux)
-        #temp = lol
-        #self.marketdata =  
+        #print ('fechaaa')
+        #print (aux)
         
         
         '''TERMINA TUS WEADAS ACA'''
@@ -293,12 +291,13 @@ class MyWidget(BoxLayout):
             #temp['rnd'] = np.random.normal(size=len(temp))
             #print (temp.vortexn)
             #fplt.plot(temp['time'], temp['vortexn'], ax=ax3, color='#992277', legend='stuff')
-            fplt.set_y_range(ax3, -10.4, +10.7) # fix y-axis range
+            #fplt.set_y_range(ax3, -10.4, +10.7) # fix y-axis range
             # finally a volume bar chart in our third plot
            
             fplt.show()
         except Exception as e: 
             print(e)
+        #return
         
 
     def get_frac_df(self, df, desde, hasta):
