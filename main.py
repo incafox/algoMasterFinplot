@@ -249,7 +249,7 @@ class MyWidget(BoxLayout):
         
         
         '''TERMINA TUS WEADAS ACA'''
-        print (self.marketdata)
+        #print (self.marketdata)
         #temp = pd.date_range(start=temp['time'][self.fechas[0]], end=temp['time'][self.fechas[1]], freq='D')
         #print (self.fechas[0])
         #print (self.fechas[0],self.fechas[1])
@@ -295,9 +295,10 @@ class MyWidget(BoxLayout):
             # finally a volume bar chart in our third plot
            
             fplt.show()
+            #pass
         except Exception as e: 
             print(e)
-        #return
+        pass
         
 
     def get_frac_df(self, df, desde, hasta):
@@ -328,7 +329,6 @@ class myApp(App):
         return True
     def on_resume(self): 
         pass
-
 
 
 if __name__ in ('__main__', '__android__'): 

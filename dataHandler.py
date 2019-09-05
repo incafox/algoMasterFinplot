@@ -23,16 +23,16 @@ quotes_general = quotes_general.rename(columns={'Date':'time',2:'open',3:'high',
 
 #quotes_general.index = pd.to_datetime(quotes_general.index)
 
-print (quotes_general)
+#print (quotes_general)
 
 #quotes_general['time'] = quotes_general['time'].dt.tz_localize('GMT').dt.tz_convert('America/New_York')
-print (quotes_general)
-print (quotes_general['time'].min(), quotes_general['time'].max())
-print ('tmr')
+#print (quotes_general)
+#print (quotes_general['time'].min(), quotes_general['time'].max())
+#print ('tmr')
 
-print (pd.date_range(start=quotes_general['time'].min(),end=quotes_general['time'].max(), freq='D',normalize=True) ) #FREQ = 'D','5H'
+#print (pd.date_range(start=quotes_general['time'].min(),end=quotes_general['time'].max(), freq='D',normalize=True) ) #FREQ = 'D','5H'
 mt = pd.date_range(start=quotes_general['time'].min(),end=quotes_general['time'].max(), freq='D',normalize=True)
-print (mt[0])
+#print (mt[0])
 #global pri 
 #global ult
 #print ("fechitas")
