@@ -9,24 +9,45 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
 
     '''init: setup del inicio'''
     def init(self):
-        print ('init')
+        #print ('init')
+        self.columna = []
+        self.indice = 0
+        rt.Singleton.getInstance().result['tmr'] = np.nan
         #pass#return ''
 
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         print (self.lastQuote.volume)
-        print (rt.Singleton.getInstance().isWorking)
+        if (self.lastQuote.volume > 200):
+            self.columna.append(True)
+            #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
+            #rt.Singleton.getInstance().result['gaa'] = True
+        else :
+            self.columna.append(False)
+            #rt.Singleton.getInstance().result['tmr'][self.indice]  = False
+        
+        #print (len(self.columna) , (rt.Singleton.getInstance().result['close']))
+        #rt.Singleton.getInstance().result['tmr'][self.indice] = pd.Series(self.columna, index =rt.Singleton.getInstance().result.index ) 
+        self.indice += 1
+        
+        #print (rt.Singleton.getInstance().isWorking)
         #pass
+
+    
 
 
 #crea la estrategia
-#temp = Estrategia()
+temp = Estrategia()
 
 #inicializa la estrategia
-#temp.init()
+temp.init()
 
 #loop de la estrategia
-#temp.runStrategy()
+temp.runStrategy()
+
+rt.Singleton.getInstance().result['tmr'] = temp.columna
+print (rt.Singleton.getInstance().result)
+print('gffdfgsfgs')
 
 #print (rt.Singleton.getInstance().isWorking)
 #print (rt.Singleton.getInstance().isWorking)

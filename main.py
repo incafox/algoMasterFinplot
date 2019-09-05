@@ -12,6 +12,10 @@ from ta import *
 import ta 
 ''''''
 
+'''SINGLETON DE RESULTADOS'''
+import ResultTabs as rt
+from subprocess import Popen
+
 '''ESTRATEGIAS'''
 import estrategia1
 import os
@@ -204,13 +208,22 @@ class MyWidget(BoxLayout):
 
     '''BOTON: RUN ESTRATEGY'''
     def runEstrategy(self):
-        re = estrategia1.Estrategia()
-        re.init()
-        re.runStrategy()
+        #re = estrategia1.Estrategia()
+        #re.init()
+        #re.runStrategy()
         '''AGREGA DATOS RESULTANTES A HOJA VACIA'''
-        
+        Popen('python estrategia1.py')
+
+
+        print (rt.Singleton.getInstance().result)
+        #print (re.columna)
         #os.system('python ' + str(estrategia1))
-        
+    
+    def plotResults(self, df):
+        #itera cada columna posible dentro del resultado
+        for column in df:
+            pass
+
 
     '''procesamiento de fft'''
     '''implementado en show day plot()'''
