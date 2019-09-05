@@ -17,7 +17,7 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
 
     '''HANDLE: para cada quote'''
     def handle(self, quote):
-        print (self.lastQuote.volume)
+        #print (self.lastQuote.volume)
         if (self.lastQuote.volume > 200):
             self.columna.append(True)
             #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
@@ -46,8 +46,8 @@ temp.init()
 temp.runStrategy()
 
 rt.Singleton.getInstance().result['tmr'] = temp.columna
-print (rt.Singleton.getInstance().result)
-print('gffdfgsfgs')
+#print (rt.Singleton.getInstance().result)
+#print('gffdfgsfgs')
 
 #print (rt.Singleton.getInstance().isWorking)
 #print (rt.Singleton.getInstance().isWorking)

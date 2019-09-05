@@ -216,14 +216,15 @@ class MyWidget(BoxLayout):
 
 
         print (rt.Singleton.getInstance().result)
-        #print (re.columna)
+        self.marcadores = rt.Singleton.getInstance().result['tmr']
+        print (self.marcadores)
         #os.system('python ' + str(estrategia1))
     
     def plotResults(self, df):
         #itera cada columna posible dentro del resultado
-        for column in df:
-            pass
-
+        #for column in df:
+        #    pass
+        pass
 
     '''procesamiento de fft'''
     '''implementado en show day plot()'''
@@ -295,6 +296,11 @@ class MyWidget(BoxLayout):
             volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
             fplt.volume_ocv(volume_src, ax=ax2)
             
+
+            # place some dumb markers
+            #hi_wicks = df['high'] - df[['open','close']].T.max().T
+            #df.loc[(hi_wicks>hi_wicks.quantile(0.99)), 'marker'] = df['close']
+            fplt.plot(temp['time'], self.marcadores, ax=ax, color='#000000', style='^', legend='dumb mark')
             '''INTERMEDIOS'''
             #te = np.random.normal(size=len(temp))
             #fplt.plot(temp['time'], te, ax=ax2, color='#001177', legend='vortex pos')
