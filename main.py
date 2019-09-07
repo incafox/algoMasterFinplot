@@ -208,21 +208,23 @@ class MyWidget(BoxLayout):
 
     '''BOTON: RUN ESTRATEGY'''
     def runEstrategy(self):
-        #re = estrategia1.Estrategia()
-        #re.init()
-        #re.runStrategy()
-        '''AGREGA DATOS RESULTANTES A HOJA VACIA'''
-        Popen('python estrategia1.py')
+        re = estrategia1.Estrategia()
+        re.init()
+        re.runStrategy()
+        #'''AGREGA DATOS RESULTANTES A HOJA VACIA'''
+        #Popen('python estrategia1.py')
 
 
         print (rt.Singleton.getInstance().result)
-        self.marcadores = rt.Singleton.getInstance().result['tmr']
+        self.marcadores = re.columna#rt.Singleton.getInstance().result['tmr']
         print (self.marcadores)
+        print ('meee')
         #os.system('python ' + str(estrategia1))
     
-    def plotResults(self, df):
+    def plotResults(self, ax):
         #itera cada columna posible dentro del resultado
         #for column in df:
+
         #    pass
         pass
 
@@ -268,6 +270,11 @@ class MyWidget(BoxLayout):
         #print (self.fechas[0])
         #print (self.fechas[0],self.fechas[1])
         #datex = self.fechas[3]
+        try:
+            self.marketdata['marker'] = self.marcadores
+        except :
+            print ('mierda')
+        
         desde = self.fechas[aux] + timedelta(hours=5)
         hasta = desde + timedelta(hours=24)
         temp = self.marketdata[(self.marketdata.time > desde) & (self.marketdata.time <= hasta)]
@@ -301,9 +308,9 @@ class MyWidget(BoxLayout):
             #hi_wicks = df['high'] - df[['open','close']].T.max().T
             #df.loc[(hi_wicks>hi_wicks.quantile(0.99)), 'marker'] = df['close']
             
-            fplt.plot(temp['time'], self.marcadores, ax=ax, color='#000000', style='^', legend='dumb mark')
-            with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-                print (self.marcadores)
+            fplt.plot(temp['time'], temp['marker'], ax=ax, color='#000000', style='^', legend='dumb mark')
+            #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+            #    print (self.marcadores)
             
             '''INTERMEDIOS'''
             #te = np.random.normal(size=len(temp))

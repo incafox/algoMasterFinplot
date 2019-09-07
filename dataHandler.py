@@ -5,7 +5,7 @@ import finplot as fplt
 global quotes_general
 dateparse = lambda x: pd/datetime.strptime(x, '%d/%m/%Y %H%M%S')
 #quotes_general = pd.read_csv('C:\\Users\\REAL_\\Desktop\\micro-nasdaq\\MNQU19Minute.csv',
-quotes_general = pd.read_csv('MESU191Minute.csv',
+quotes_general = pd.read_csv('MNQU19Minute.csv',
                         skiprows=1,
 #                     index_col=0,
                      #date_parser=dateparse,

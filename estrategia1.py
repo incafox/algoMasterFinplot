@@ -18,7 +18,7 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         #print (self.lastQuote.volume)
-        if (self.lastQuote.volume > 1000):
+        if (self.lastQuote.volume > 1000) and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
             self.columna.append(self.lastQuote.close)
             #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
             #rt.Singleton.getInstance().result['gaa'] = True
@@ -38,15 +38,15 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
 
 
 #crea la estrategia
-temp = Estrategia()
+#temp = Estrategia()
 
 #inicializa la estrategia
-temp.init()
+#temp.init()
 
 #loop de la estrategia
-temp.runStrategy()
+#temp.runStrategy()
 
-rt.Singleton.getInstance().result['tmr'] = temp.columna
+#rt.Singleton.getInstance().result['tmr'] = temp.columna
 #print (rt.Singleton.getInstance().result)
 #print('gffdfgsfgs')
 
