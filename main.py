@@ -208,19 +208,22 @@ class MyWidget(BoxLayout):
 
     '''BOTON: RUN ESTRATEGY'''
     def runEstrategy(self):
-        re = estrategia1.Estrategia()
-        re.init()
-        re.runStrategy()
-        #'''AGREGA DATOS RESULTANTES A HOJA VACIA'''
-        #Popen('python estrategia1.py')
+        #re = estrategia1.Estrategia()
+        #re.init()
+        #re.runStrategy()
+        #
+        '''AGREGA DATOS RESULTANTES A HOJA VACIA'''
+        Popen('python estrategia1.py -1')
 
 
         print (rt.Singleton.getInstance().result)
-        self.marcadores = re.columna#rt.Singleton.getInstance().result['tmr']
-        print (self.marcadores)
-        print ('meee')
-        #os.system('python ' + str(estrategia1))
-    
+        print ("daaaa")
+        #self.marcadores = re.columna
+        #self.marcadores = rt.Singleton.getInstance().result['t1']
+        #print (self.marcadores)
+        #print ('meee')
+        pass
+        
     def plotResults(self, ax):
         #itera cada columna posible dentro del resultado
         #for column in df:
@@ -270,7 +273,9 @@ class MyWidget(BoxLayout):
         #print (self.fechas[0])
         #print (self.fechas[0],self.fechas[1])
         #datex = self.fechas[3]
+        print (rt.Singleton.getInstance().result)
         try:
+            self.marcadores = rt.Singleton.getInstance().result['t1']
             self.marketdata['marker'] = self.marcadores
         except :
             print ('mierda')

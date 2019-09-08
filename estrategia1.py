@@ -12,13 +12,14 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
         #print ('init')
         self.columna = []
         self.indice = 0
-        rt.Singleton.getInstance().result['tmr'] = np.nan
+        #self.data_res = ()
+        #rt.Singleton.getInstance().result['tmr'] = np.nan
         #pass#return ''
 
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         #print (self.lastQuote.volume)
-        if (self.lastQuote.volume > 1000) and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
+        if (self.lastQuote.volume > 100) :#and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
             self.columna.append(self.lastQuote.close)
             #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
             #rt.Singleton.getInstance().result['gaa'] = True
@@ -34,7 +35,35 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
         #print (rt.Singleton.getInstance().isWorking)
         #pass
 
-    
+    def addTabs(self):
+        self.resultados_columnas.append(self.columna)
+        pass
+
+
+import sys, getopt
+
+def main(argv):
+    if (argv == ""):
+        print ("nada ")
+        pass
+    elif (argv == "-1"):
+        print ("procede a agregar datos")
+        temp = Estrategia()
+        temp.init()
+        temp.runStrategy()
+        print (rt.Singleton.getInstance().result)
+        pass
+    #print ( "This is the name of the script: ", sys.argv[1])
+
+if __name__ == "__main__":
+   try:
+       main(sys.argv[1])
+       pass
+   except:
+       #main(sys.argv[1])
+       pass
+   
+
 
 
 #crea la estrategia
