@@ -50,17 +50,6 @@
             spacing: 10, 10
             cols: 1
 
-            
-		#Label:
-		#	id: label2
-		#	color: 1,0,1,1
-		#	canvas.before:
-		#		Color:
-		#			rgba:  110/255.0, 191/255.0, 63/255.0, 1
-		#		Rectangle:
-		#			pos:self.pos
-		#			size: self.size
-
     #controlador 
     BoxLayout:
         padding: 10,10,10,10
@@ -74,7 +63,7 @@
             size_hint:1, 0.05
             orientation: 'vertical'
             Label:
-                text: 'PORTFOLIO MANAGER'
+                text: 'DATASETS DISPONIBLES'
                 id: label2
                 color: 1,0,1,1
                 canvas.before:
@@ -86,20 +75,21 @@
 
 
         ScrollView:
-            id: datos
-            size_hint:1, 0.2
             do_scroll_x: False
             do_scroll_y: True
-            #size_hint:1, None
-                #BoxLayout:
-                    #size_hint_y:None
-                    #orientation: 'vertical'
-                    #id: datos
-                    #rows: 2
-                    #cols: 1
-                    #padding: 1
-                    #spacing: 1
-        
+
+            id: datos
+            padding: 10,10,10,10
+            spacing: 10
+            size_hint:1, 1
+            GridLayout:
+                id: hiss
+                do_scroll_x: False
+                height: self.minimum_height
+                size_hint_y: None
+                spacing: 10, 10
+                cols: 1
+
         BoxLayout:
             padding: 0,0,0,0
             spacing: 1
