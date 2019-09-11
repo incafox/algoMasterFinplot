@@ -6,6 +6,8 @@ from scipy import signal
 from scipy.fftpack import fft
 ''''''
 
+import glob
+
 '''TA LIBRARY (VORTEX, ETC)'''
 ''' https://github.com/bukosabino/ta '''
 from ta import *
@@ -27,7 +29,7 @@ from kivy.config import Config
 Config.set('kivy', 'exit_on_escape', '0')
 import multiprocessing as mp 
 from multiprocessing import Process, Queue
-import dataHandler
+#import dataHandler
 import kivy
 #kivy.require('1.11.0')
 import finplot as fplt
@@ -62,19 +64,19 @@ from kivy.uix.button import Button
 #librerias propias
 #import fileManager
 import talib
-import dataHandler as dt
+#import dataHandler as dt
 #matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 
 Builder.load_file('SimpleKivy4.kv')
-#import matplotlib.pyplot as plt
 
-#labels = ['datetime', 'Open', 'High', 'Low', 'Close']
-#ohlc_df=pd.DataFrame.from_records(ohlc, columns=labels)
-#ohlc_df = fileManager.get_test()
-
+'''DEPRECATED'''
+'''
 lol = dt.quotes_general[['time','open','close','high','low','volume']]
 lol = lol.astype({'time':'datetime64[ns]'})
 lol.time = lol.time + pd.DateOffset(hours=5)
+'''
+lol = pd.read_pickle("MNQU19Minute.pkl")
+
 datex = ''
 
 #devuelve 9m de cualquier fecha
@@ -165,10 +167,8 @@ class MyWidget(BoxLayout):
         #boton2.bind(on_press=self.callback_botton2)
         #boton2.bind(on_press=plotea_adelante)
         #self.ids.plot.add_widget(boton2)
-        
         #self.figura = plt.gcf()
         #self.ids.plot.add_widget(FigureCanvasKivyAgg(self.figura))
-        
         #self.ids.plot.add_widget(canvas)
         self.fecha = ''
         self.cargaDatos()
@@ -176,15 +176,17 @@ class MyWidget(BoxLayout):
         self.marketdata = lol  
         self.play()
 
+    '''CARGA DATAFRAME PICKLE DE PANDAS PARA MOSTRARLOS COMO BOTONES'''
     def cargaDatos(self):
-        datos =[]# fileManager.get_available_filepaths()
-        layout = GridLayout(cols=1, spacing=1, size_hint_y=None)
-        layout.bind(minimum_height=layout.setter('height'))
-        for (filename,path) in datos:
-            btn = Button(text=str(filename), size_hint_y=None, height=25 )
-            btn.bind(on_press=self.callback)
-            layout.add_widget(btn)
-        self.ids.datos.add_widget(layout)
+        #self.ids.his.clear_widgets()
+        datos =glob.glob("*.pkl") # carga los pkl dataframes 
+        #layout = GridLayout(cols=1, spacing=1, size_hint_y=None)
+        #layout.bind(minimum_height=layout.setter('height'))
+        for filename in datos:
+            btn = Button(text=str(filename),size_hint_y=None, height = Window.height * .05 )
+            #btn.bind(on_press=self.callback)
+            #layout.add_widget(btn)
+            self.ids.hiss.add_widget(btn)
     #SECCIOND DE CALLBACKS
     def fechas_disponiblesx(self):
         self.ids.his.clear_widgets()
@@ -192,20 +194,13 @@ class MyWidget(BoxLayout):
         layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
         self.fechas = t
-        print (t)
-        print (t[0])
         i=0
         for e in t:
             y = Button(text=str(i)+'-'+str(e), font_size=13,size_hint_y=None, height = Window.height * .05)
-            #y.bind(on_press=self.test)
             y.bind(on_press=self.show_day_plot)
-            #y.bind(on_press=show_day)
-            #y.bind(on_press=xxx)
             self.ids.his.add_widget(y)
             i = i+1
-            #layout.add_widget(y)
-        #pass
-
+            
     '''BOTON: RUN ESTRATEGY'''
     def runEstrategy(self):
         re = estrategia1.Estrategia()
@@ -290,7 +285,7 @@ class MyWidget(BoxLayout):
         '''TODO :MEJORA EL FFT que agrege en la ventana izquierda en matplotlib'''
         #self.plot_fft(temp,'filtered')
 
-        ax,ax2,ax3 = fplt.create_plot('NASDAQ', rows=3 )#,maximize=True)
+        ax,ax2 = fplt.create_plot('NASDAQ', rows=2 )#,maximize=True)
         try:
             '''CANDLESTICK CHARTS'''
             

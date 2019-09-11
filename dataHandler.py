@@ -3,9 +3,11 @@ from datetime import timedelta
 import finplot as fplt
 
 global quotes_general
+filename = 'MNQU19Minute.csv'
+
 dateparse = lambda x: pd/datetime.strptime(x, '%d/%m/%Y %H%M%S')
 #quotes_general = pd.read_csv('C:\\Users\\REAL_\\Desktop\\micro-nasdaq\\MNQU19Minute.csv',
-quotes_general = pd.read_csv('MNQU19Minute.csv',
+quotes_general = pd.read_csv(filename,
                         skiprows=1,
 #                     index_col=0,
                      #date_parser=dateparse,
@@ -14,6 +16,14 @@ quotes_general = pd.read_csv('MNQU19Minute.csv',
          )#lol = pd.to_datetime(quotes_general.index.astype(str), format='%Y-%m-%d %H:%M:%S')
 #lol = pd.to_datetime(quotes_general.index.dt.strftime('%Y-%m'))
 quotes_general = quotes_general.rename(columns={'Date':'time',2:'open',3:'high',4:'low',5:'close',6:'volume'})
+
+lol = quotes_general[['time','open','close','high','low','volume']]
+lol = lol.astype({'time':'datetime64[ns]'})
+lol.time = lol.time + pd.DateOffset(hours=5)
+
+lol.to_pickle(filename[:-4]+".pkl")
+
+
 #print (lol)
 #tmr = pd.to_datetime(quotes_general.index).dt.strftime('%Y-%d-%m %H:%M:%S')
 #print(tmr)
@@ -31,7 +41,9 @@ quotes_general = quotes_general.rename(columns={'Date':'time',2:'open',3:'high',
 #print ('tmr')
 
 #print (pd.date_range(start=quotes_general['time'].min(),end=quotes_general['time'].max(), freq='D',normalize=True) ) #FREQ = 'D','5H'
+
 mt = pd.date_range(start=quotes_general['time'].min(),end=quotes_general['time'].max(), freq='D',normalize=True)
+
 #print (mt[0])
 #global pri 
 #global ult
