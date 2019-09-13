@@ -2,7 +2,7 @@
 
 
 import pandas as pd 
-import dataHandler as dt
+#import dataHandler as dt
 class Singleton:
     __instance = None
     @staticmethod 

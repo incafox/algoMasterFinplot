@@ -15,11 +15,11 @@ import ta
 ''''''
 
 '''SINGLETON DE RESULTADOS'''
-import ResultTabs as rt
+#import ResultTabs as rt
 from subprocess import Popen
 
 '''ESTRATEGIAS'''
-import estrategia1
+#import estrategia1
 import os
 
 import subprocess
@@ -211,8 +211,8 @@ class MyWidget(BoxLayout):
         Popen('python estrategia1.py -1')
 
 
-        print (rt.Singleton.getInstance().result)
-        print ("daaaa")
+        #print (rt.Singleton.getInstance().result)
+        #print ("daaaa")
         #self.marcadores = re.columna
         #self.marcadores = rt.Singleton.getInstance().result['t1']
         #print (self.marcadores)
@@ -268,10 +268,10 @@ class MyWidget(BoxLayout):
         #print (self.fechas[0])
         #print (self.fechas[0],self.fechas[1])
         #datex = self.fechas[3]
-        print (rt.Singleton.getInstance().result)
+        #print (rt.Singleton.getInstance().result)
         try:
-            self.marcadores = rt.Singleton.getInstance().result['t1']
-            self.marketdata['marker'] = self.marcadores
+            self.marcadores = pd.read_pickle('estrategia1.pkl')
+            self.marketdata['marker'] = self.marcadores['marker']
         except :
             print ('mierda')
         

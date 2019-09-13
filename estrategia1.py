@@ -1,7 +1,7 @@
 import AbstractStrategy
 import pandas as pd 
 import numpy as np
-import ResultTabs as rt
+#import ResultTabs as rt
 
 
 class Estrategia(AbstractStrategy.AbstractStrategy):
@@ -18,8 +18,8 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
 
     '''HANDLE: para cada quote'''
     def handle(self, quote):
-        #print (self.lastQuote.volume)
-        if (self.lastQuote.volume > 100) :#and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
+        print (self.lastQuote.volume)
+        if (self.lastQuote.volume > 500) and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
             self.columna.append(self.lastQuote.close)
             #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
             #rt.Singleton.getInstance().result['gaa'] = True
@@ -35,45 +35,23 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
         #print (rt.Singleton.getInstance().isWorking)
         #pass
 
-    def addTabs(self):
+    def post(self):
         self.resultados_columnas.append(self.columna)
+        print (self.resultados_columnas)
+        df = pd.DataFrame({'marker':self.columna})
+        df.to_pickle('estrategia1.pkl')
         pass
-
-
-import sys, getopt
-
-def main(argv):
-    if (argv == ""):
-        print ("nada ")
-        pass
-    elif (argv == "-1"):
-        print ("procede a agregar datos")
-        temp = Estrategia()
-        temp.init()
-        temp.runStrategy()
-        print (rt.Singleton.getInstance().result)
-        pass
-    #print ( "This is the name of the script: ", sys.argv[1])
-
-if __name__ == "__main__":
-   try:
-       main(sys.argv[1])
-       pass
-   except:
-       #main(sys.argv[1])
-       pass
-   
 
 
 
 #crea la estrategia
-#temp = Estrategia()
+temp = Estrategia()
 
 #inicializa la estrategia
-#temp.init()
+temp.init()
 
 #loop de la estrategia
-#temp.runStrategy()
+temp.runStrategy()
 
 #rt.Singleton.getInstance().result['tmr'] = temp.columna
 #print (rt.Singleton.getInstance().result)
