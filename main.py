@@ -17,6 +17,7 @@ import ta
 '''SINGLETON DE RESULTADOS'''
 #import ResultTabs as rt
 from subprocess import Popen
+import subprocess
 
 '''ESTRATEGIAS'''
 #import estrategia1
@@ -208,8 +209,8 @@ class MyWidget(BoxLayout):
         #re.runStrategy()
         #
         '''AGREGA DATOS RESULTANTES A HOJA VACIA'''
-        Popen('python estrategia1.py -1')
-
+        #Popen('python estrategia1.py')
+        subprocess.call(['python', 'estrategia1.py'])
 
         #print (rt.Singleton.getInstance().result)
         #print ("daaaa")
