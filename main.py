@@ -276,6 +276,9 @@ class MyWidget(BoxLayout):
         except :
             print ('mierda')
         
+        
+        
+        
         desde = self.fechas[aux] + timedelta(hours=5)
         hasta = desde + timedelta(hours=24)
         temp = self.marketdata[(self.marketdata.time > desde) & (self.marketdata.time <= hasta)]
@@ -300,10 +303,22 @@ class MyWidget(BoxLayout):
             fplt.plot(temp['time'], temp['sma200'], ax=ax, color='#0000ff', legend='ma-200')
             fplt.plot(temp['time'], temp['filtered'], ax=ax, color='#ff00ff', legend='filtrado',width=2)
             
+            try:
+
+                '''OBTIENE LAS ORDENES DE COMPRA-VENTA'''
+                buys = pd.read_pickle("book_buy.pkl")
+                sell = pd.read_pickle("book_sell.pkl")
+                '''PROCEDE A PLOTEAR'''
+                pass
+            except :
+                print ("[ ERROR ] Fallo al obtener las ordenes de compra/venta")
+                pass
+
             '''VOLUMEN CHARTS'''
             volume_src = fplt.PandasDataSource(temp[['time','open','close','volume']])
             fplt.volume_ocv(volume_src, ax=ax2)
-            
+
+
 
             # place some dumb markers
             #hi_wicks = df['high'] - df[['open','close']].T.max().T
