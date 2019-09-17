@@ -11,7 +11,13 @@ class AbstractStrategy(ABC):
     def __init__(self):
         super().__init__()
         self.data = pd.read_pickle("MNQU19Minute.pkl")#dt.quotes_general[['time','open','close','high','low','volume']]
-        
+        #print (self.data)
+        self.t1 = self.data['time']
+        self.t1.to_pickle('book_buy.pkl')
+
+        self.t2 = self.data['time']
+        self.t2.to_pickle('book_sell.pkl')
+
         '''que creee libros a partir del archivo de arriba automaticamente'''
         self.orders_buy = pd.read_pickle("book_buy.pkl") 
         self.orders_sell = pd.read_pickle("book_sell.pkl")
@@ -33,9 +39,10 @@ class AbstractStrategy(ABC):
             self.handle(self.lastQuote)
             '''UPDATE DE ORDENES'''
             for order in self.orders:
+                print ('ordenes len > ' + str(len(self.orders)))
                 order.update(self.lastQuote,self.orders_buy, self.orders_sell)
             '''graba resultados de ordenes en archivo pickle'''
-            self.orders_buy.to_pickle("book_buy.pkl")
+        self.orders_buy.to_pickle("book_buy.pkl")
             #self.orders_sell.to_pickle("book_sell.pkl")
             #print(row['c1'], row['c2'])
         self.post()

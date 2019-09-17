@@ -307,8 +307,10 @@ class MyWidget(BoxLayout):
 
                 '''OBTIENE LAS ORDENES DE COMPRA-VENTA'''
                 buys = pd.read_pickle("book_buy.pkl")
-                sell = pd.read_pickle("book_sell.pkl")
+                #sell = pd.read_pickle("book_sell.pkl")
                 '''PROCEDE A PLOTEAR'''
+                print ('compras')
+                print (buys)
                 pass
             except :
                 print ("[ ERROR ] Fallo al obtener las ordenes de compra/venta")

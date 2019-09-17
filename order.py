@@ -24,7 +24,7 @@ class Order():
         self.result = timeTab
         #agrega tabla de ploteo
         self.result[self.time] = np.nan
-        self.result[self.time][index] = inicio
+        #self.result[self.time][index] = inicio
         pass
 
     '''graba final de contrato en una tabla de pandas'''
@@ -39,6 +39,7 @@ class Order():
         pass
 
     def update(self, lastQuote, book_buy, book_sell):
+        print ("updating orders ... :v")
         if (self.type=='buy' and self.operationFInished==False):
             if (lastQuote.close>=self.takeProfit):
                 self.total = lastQuote.close - self.inicio 

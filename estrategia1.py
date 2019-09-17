@@ -2,7 +2,7 @@ import AbstractStrategy
 import pandas as pd 
 import numpy as np
 #import ResultTabs as rt
-
+import order as m
 
 class Estrategia(AbstractStrategy.AbstractStrategy):
     
@@ -19,8 +19,9 @@ class Estrategia(AbstractStrategy.AbstractStrategy):
     '''HANDLE: para cada quote'''
     def handle(self, quote):
         print (self.lastQuote.volume)
-        if (self.lastQuote.volume > 500) and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
+        if (self.lastQuote.volume > 1000) :#and (self.lastQuote.low<self.lastQuote.close) and (self.lastQuote.open>self.lastQuote.close) and (self.lastQuote.close-self.lastQuote.low)>2:
             self.columna.append(self.lastQuote.close)
+            self.orders.append(m.Order(self.data.index,self.data.time,self.lastQuote.time,self.lastQuote.close,3,self.lastQuote.close + 3,'sell',34))
             #rt.Singleton.getInstance().result['tmr'][self.indice]  = True
             #rt.Singleton.getInstance().result['gaa'] = True
         else :
