@@ -35,6 +35,7 @@ class AbstractStrategy(ABC):
         '''para que se use por boton'''
         self.init()
         for index, quote in self.data.iterrows():
+            self.index = index
             self.lastQuote = quote
             self.handle(self.lastQuote)
             '''UPDATE DE ORDENES'''

@@ -13,6 +13,7 @@ class Order():
         self.inicio = inicio
         self.time = time
         self.operationFInished = False
+        self.index = index
         '''
         timeTab: tabla de incide para cuadrar datos
         time  : tiepo donde se inicio la operacion
@@ -24,6 +25,7 @@ class Order():
         self.result = timeTab
         #agrega tabla de ploteo
         self.result[self.time] = np.nan
+        self.result[self.index].loc = inicio
         #self.result[self.time][index] = inicio
         pass
 
@@ -38,12 +40,13 @@ class Order():
             pass
         pass
 
-    def update(self, lastQuote, book_buy, book_sell):
+    def update(self, index, lastQuote, book_buy, book_sell):
         print ("updating orders ... :v")
+        self.index = index
         if (self.type=='buy' and self.operationFInished==False):
             if (lastQuote.close>=self.takeProfit):
                 self.total = lastQuote.close - self.inicio 
-                self.saveAndEnd(lastQuote,book_buy, book_sell)
+                self.saveAndEnd(lastQuote, book_buy, book_sell)
                 self.operationFInished = True
                 return
             else:
