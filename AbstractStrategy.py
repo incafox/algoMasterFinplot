@@ -34,8 +34,9 @@ class AbstractStrategy(ABC):
         #self.single.initWorking()
         '''para que se use por boton'''
         self.init()
+        i = 0
         for index, quote in self.data.iterrows():
-            self.index = index
+            self.index = i
             self.lastQuote = quote
             self.handle(self.lastQuote)
             '''UPDATE DE ORDENES'''
@@ -43,11 +44,12 @@ class AbstractStrategy(ABC):
                 print ('ordenes len > ' + str(len(self.orders)))
                 order.update(self.lastQuote,self.orders_buy, self.orders_sell)
             '''graba resultados de ordenes en archivo pickle'''
+            i+=1
         self.orders_buy.to_pickle("book_buy.pkl")
             #self.orders_sell.to_pickle("book_sell.pkl")
             #print(row['c1'], row['c2'])
         self.post()
-        i = 0
+        
         pass
 
     @abstractmethod

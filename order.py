@@ -25,6 +25,7 @@ class Order():
         self.result = timeTab
         #agrega tabla de ploteo
         self.result[self.time] = np.nan
+        print ("[DEBUG] > " +str(self.index))
         self.result[self.index].loc = inicio
         #self.result[self.time][index] = inicio
         pass
